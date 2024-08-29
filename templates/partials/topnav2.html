@@ -1,0 +1,38 @@
+<div class="sidebar">
+    <div class="logo">
+        <img src="/media/logo7.png" alt="Logo" class="logo">
+        <div class="logo-text">GSFCS</div>
+    </div>
+    
+    <a href="{% url 'school-schooladmin_index' %}" class="menu-item">
+        <span>Dashboard</span>
+        <i class="fa-solid fa-table-columns"></i>
+    </a>
+    <a href="{% url 'school-addfacility' %}" class="menu-item">
+        <span>Facility</span>
+        <i class="fa-regular fa-bookmark"></i>
+    </a>
+    <a href="{% url 'schooladmin-maintanance' %}" class="menu-item">
+        <span>Maintenance</span>
+        <i class="fa-solid fa-toolbox"></i>
+    </a>
+    <a href="{% url 'school-addannouncement' %}" class="menu-item">
+        <span>Announcement</span>
+        <i class="fa-regular fa-clipboard"></i>
+    </a>
+    <a href="{% url 'school-admin_paymentstatus' %}" class="menu-item">
+        <span>Payment</span>
+        <i class="fa-solid fa-money-check-dollar"></i>
+    </a>
+    
+    <div class="footer">
+        <a href="{% url 'district-profile2' %}" class="menu-item">
+            <span>Profile</span>
+            <i class="fa-regular fa-user"></i>
+        </a>
+        <a href="{% url 'district-login' %}" class="menu-item">
+            <span>Logout</span>
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+</div>

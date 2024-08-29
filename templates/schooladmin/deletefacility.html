@@ -1,0 +1,25 @@
+{% extends 'partials/base.html' %}
+{% block title %} Delete Facility {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h4>Delete Facility</h4>
+                <hr>
+                <p>Are you sure you want to delete the facility "{{ facility.FacilityName }}"?</p>
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, delete</button>
+                    <a href="{% url 'school-addfacility' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

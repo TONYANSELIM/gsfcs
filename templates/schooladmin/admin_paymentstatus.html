@@ -1,0 +1,115 @@
+{% extends 'partials/base.html' %}
+{% block title %} Maintenance {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h4>Search Maintenance</h4>
+                <form method="GET" action="{% url 'school-admin_paymentstatus' %}" class="form-inline mb-3">
+                    <div class="form-group mb-2">
+                        <label for="searchInput" class="sr-only">Search</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search by facility name" name="facility_q" value="{{ facility_q }}">
+                    </div>
+                    
+                    <div class="form-group mx-sm-2 mb-2">
+                        <label for="categorySelect" class="sr-only">Category</label>
+                        <select id="categorySelect" class="form-control" name="category">
+                            <option value="">Select Category...</option>
+                            {% for key, value in categories %}
+                                <option value="{{ key }}" {% if selected_category == key %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button class="btn btn-primary mb-2" type="submit">Apply</button>
+                    <a href="{% url 'download_paymentstatus_excel' %}?facility_q={{ facility_q }}&category={{ category }}" class="btn btn-primary mb-2 ml-2">Download Excel</a>
+                </form>
+                <hr>
+            
+                <h4>Confirmed Payment Records</h4>
+                <table class="table table-striped bg-white mt-4">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Picture</th>
+                            <th scope="col">Facility</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Facility Number</th>
+                            <th scope="col">School</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for maintenance in confirmed_maintenances %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#descriptionModal{{ maintenance.pk }}">
+                                    <img src="{{ maintenance.MaintanancePicture.url }}" alt="{{ maintenance.MaintananceDescription }}" style="width: 100px; height: auto;">
+                                </a>
+                                <div class="modal fade" id="descriptionModal{{ maintenance.pk }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ maintenance.pk }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="descriptionModalLabel{{ maintenance.pk }}">Maintenance Description</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ maintenance.MaintananceDescription }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ maintenance.facility.FacilityName }}</td>
+                            <td>{{ maintenance.get_category_display }}</td>
+                            <td>{{ maintenance.facility.generate_facility_number }}</td>
+                            <td>{{ maintenance.facility.school.DSchoolName }}</td>
+                            <td>
+                                {% if maintenance.confirmed %}
+                                    <span class="text-success">Paid</span>
+                                {% else %}
+                                    <span class="text-danger">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if maintenance.confirmed and not maintenance.receipt %}
+                                    <form method="post" enctype="multipart/form-data" action="{% url 'school-admin_paymentstatus' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="maintenance_id" value="{{ maintenance.MaintananceID }}">
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file" name="receipt" accept="application/pdf">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm">Upload Receipt</button>
+                                    </form>
+                                {% elif maintenance.receipt %}
+                                    <a href="{{ maintenance.receipt.url }}" class="btn btn-info btn-sm" target="_blank">View Receipt</a>
+                                {% else %}
+                                    <span class="text-danger">Not Paid</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8">No confirmed maintenance records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

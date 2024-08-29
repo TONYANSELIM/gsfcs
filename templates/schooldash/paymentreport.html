@@ -1,0 +1,80 @@
+{% extends 'partials/base.html' %}
+{% block title %}View Items Page{% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %} 
+ <!--Table-->
+ <div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label for="searchInput" class="sr-only">Search</label>
+                        <input type="text" class="form-control mb-2" id="searchInput" placeholder="Search...">
+                    </div>
+                    <div class="col-auto">
+                        <label for="filterSelect" class="sr-only">Filter</label>
+                        <select id="filterSelect" class="form-control mb-2">
+                            <option selected>Choose Filter...</option>
+                            <option>Filter 1</option>
+                            <option>Filter 2</option>
+                            <!-- Add more filter options as needed -->
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-info mb-2" onclick="applyFilters()">Apply</button>
+                    </div>
+                </div>
+            </div>
+            
+
+
+            <table class="table bg-white">
+
+            
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"><a class="btn btn-info btn-sm" href="">View</a></th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a class="btn btn-info btn-sm" href="">View</a></th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><a class="btn btn-info btn-sm" href="">View</a></th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-info btn-sm" href="">Download Payment Report</a>
+                
+            <a class="btn btn-info btn-sm" href="">Upload Report to Admin</a> 
+
+            <a class="btn btn-info btn-sm" href="{% url 'school-viewmonthlyreport' %}">View Monthly Reports</a>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!--End Table-->
+
+{% endblock %}

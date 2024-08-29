@@ -1,0 +1,22 @@
+{% extends 'partials/base.html' %}
+{% block title %}Edit Announcement{% endblock %}
+
+{% block content %}
+{% include 'partials/topnav2.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h5>Edit Announcement</h5>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Update Announcement</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

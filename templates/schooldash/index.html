@@ -1,0 +1,111 @@
+{% extends 'partials/base.html' %}
+{% block title %}Index Page{% endblock %}
+{% block content %}
+
+{% include 'partials/topnav.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+    
+            <div class="col-md-10 mt-10">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Information
+                    </div>
+                    <div class="card-body">
+                        <h3 class="my-10">Wellcome, {{ user.username }}</h3>
+                        
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+<!--Topside-->
+<div class="container">
+
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Panel
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-addadmin' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Admin's <i class="fas fa-users"></i></h4>
+                                        <h3>{{ items_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-addschool' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>School's <i class="fa-solid fa-school"></i></h4>
+                                        <h3>{{ schools_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-viewitems' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Facilities <i class="fa-solid fa-toolbox"></i></h4>
+                                        <h3>{{ facilities_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-maintanance2' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Request <i class="fa-solid fa-screwdriver-wrench"></i></h4>
+                                        <h3>{{ maintanance_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-payment' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Payment <i class="fa-solid fa-money-check-dollar"></i></h4>
+                                        <h3>{{ maintanance_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-viewannouncement' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Post <i class="fa-regular fa-clipboard"></i></h4>
+                                        <h3>{{ announcement_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Topside-->
+
+
+
+
+
+{% endblock %}
+

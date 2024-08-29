@@ -1,0 +1,22 @@
+{% extends 'partials/base.html' %}
+{% block title %} Delete School {% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h5>Delete School</h5>
+                <p>Are you sure you want to delete '{{ school.DSchoolName }}'?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a href="{% url 'school-addschool' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

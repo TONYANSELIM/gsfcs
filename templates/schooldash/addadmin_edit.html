@@ -1,0 +1,41 @@
+{% extends 'partials/base.html' %}
+{% block title %}Admin Edit Page{% endblock %}
+
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="row my-4">
+    <div class="col-md-6 offset-md-3 p-3 bg-white">
+        <h3>Edit Item</h3>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_SchoolAdminID">ID</label>
+                <input type="text" class="form-control" id="id_SchoolAdminID" name="SchoolAdminID" value="{{ form.SchoolAdminID.value }}">
+            </div>
+            <div class="form-group">
+                <label for="id_AdminFname">First Name</label>
+                <input type="text" class="form-control" id="id_AdminFname" name="AdminFname" value="{{ form.AdminFname.value }}">
+            </div>
+            <div class="form-group">
+                <label for="id_AdminMname">Middle Name</label>
+                <input type="text" class="form-control" id="id_AdminMname" name="AdminMname" value="{{ form.AdminMname.value }}">
+            </div>
+            <div class="form-group">
+                <label for="id_AdminLname">Last Name</label>
+                <input type="text" class="form-control" id="id_AdminLname" name="AdminLname" value="{{ form.AdminLname.value }}">
+            </div>
+            <div class="form-group">
+                <label for="id_AdminEmail">Email</label>
+                <input type="email" class="form-control" id="id_AdminEmail" name="AdminEmail" value="{{ form.AdminEmail.value }}">
+            </div>
+            <div class="form-group">
+                <label for="id_AdminPhoneNumber">Phone Number</label>
+                <input type="text" class="form-control" id="id_AdminPhoneNumber" name="AdminPhoneNumber" value="{{ form.AdminPhoneNumber.value }}">
+            </div>
+            <button type="submit" class="btn btn-info">Confirm</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

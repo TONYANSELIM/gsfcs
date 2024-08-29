@@ -1,0 +1,108 @@
+{% extends 'partials/base.html' %}
+{% block title %} Maintenance {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h5>Add Maintenance Record</h5>
+                <form method="POST" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="facility">Facility</label>
+                        <div class="input-group">
+                            {{ form.facility }}
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="scan-sql-btn">Scan SQL</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        {{ form.category }}
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        {{ form.amount }}
+                    </div>
+                    <div class="form-group"> 
+                        <label for="description">Description</label>
+                        {{ form.MaintananceDescription }}
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        {{ form.MaintanancePicture }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Maintenance</button>
+                </form>
+                <hr>
+                <h4>Maintenance</h4>
+                <form method="GET" action="{% url 'schooladmin-maintanance' %}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Facility" aria-label="Search" name="facility_q" value="{{ request.GET.facility_q }}">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                    <a href="{% url 'download_maintenance_excel' %}" class="btn btn-primary my-2 my-sm-0 ml-2">Download Excel</a>
+                </form>
+                <h5>Maintenance Records</h5>
+                <table class="table table-striped bg-white mt-4">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Picture</th>
+                            <th scope="col">Facility</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Facility Number</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for maintenance in maintenances %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#descriptionModal{{ forloop.counter }}">
+                                    <img src="{{ maintenance.MaintanancePicture.url }}" alt="{{ maintenance.MaintananceDescription }}" style="width: 100px; height: auto;">
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="descriptionModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ forloop.counter }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="descriptionModalLabel{{ forloop.counter }}">Description</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 400px; overflow-y: auto; word-wrap: break-word;">
+                                                {{ maintenance.MaintananceDescription }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ maintenance.facility.FacilityName }}</td>
+                            <td>{{ maintenance.get_category_display }}</td>
+                            <td>{{ maintenance.amount }}</td>
+                            <td>{{ maintenance.facility.generate_facility_number }}</td>
+                            <td>
+                                <a href="{% url 'edit_maintenance' maintenance.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'delete_maintenance' maintenance.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'partials/base.html' %}
+{% block title %}Comments List{% endblock %}
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form method="GET" action="{% url 'view_comments' %}" class="form-inline">
+                        <div class="form-group mb-2">
+                            <label for="searchInput" class="sr-only">Search</label>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search by announcement title" name="q" value="{{ query|default:'' }}">
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <label for="schoolSelect" class="sr-only">School</label>
+                            <select id="schoolSelect" class="form-control" name="school">
+                                <option value="">Select School...</option>
+                                {% for school in schools %}
+                                    <option value="{{ school.id }}" {% if selected_school == school.id|stringformat:"s" %}selected{% endif %}>{{ school.DSchoolName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mb-2" type="submit">Apply</button>
+                    </form>
+                </div>
+                <hr>
+                <h4>Comments List</h4>
+                <table class="table table-striped bg-white">
+                    <thead class="bg-info text-white">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Announcement Title</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Time Posted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for announcement in announcements %}
+                            {% for comment in announcement.comments %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ announcement.Title }}</td>
+                                <td>{{ comment.email }}</td>
+                                <td>{{ comment.comment }}</td>
+                                <td>{{ announcement.TimePosted }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %}
+{% block title %} Add School {% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h5>Add School</h5>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for="{{ form.DSchoolName.id_for_label }}" class="form-label">School Name</label>
+                        <input type="text" class="form-control" id="{{ form.DSchoolName.id_for_label }}" name="{{ form.DSchoolName.name }}" placeholder="Enter School Name">
+                        {{ form.DSchoolName.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Ward.id_for_label }}" class="form-label">Ward</label>
+                        <input type="text" class="form-control" id="{{ form.Ward.id_for_label }}" name="{{ form.Ward.name }}" placeholder="Enter Ward">
+                        {{ form.Ward.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Street.id_for_label }}" class="form-label">School Registration Number</label>
+                        <input type="text" class="form-control" id="{{ form.Street.id_for_label }}" name="{{ form.Street.name }}" placeholder="Enter Registration No">
+                        {{ form.Street.errors }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h4>Schools List</h4>
+                <div class="form-row align-items-center">
+                    <form method="GET" action="{% url 'school-addschool' %}" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ search_query }}">
+                        <button type="submit" class="btn btn-primary mb-2">Search</button>
+                    </form>
+                </div>
+            <table class="table table-striped bg-white">
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        <th scope="col">#</th>
+                        <th scope="col">School Name</th>
+                        <th scope="col">Ward</th>
+                        <th scope="col">School Registration Number</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for school in schools %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ school.DSchoolName }}</td>
+                        <td>{{ school.Ward }}</td>
+                        <td>{{ school.Street }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'school-addschool-edit' school.pk %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'school-addschool-delete' school.pk %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

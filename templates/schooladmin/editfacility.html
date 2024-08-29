@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %}
+{% block title %} Edit Facility {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h4>Edit Facility</h4>
+                <hr>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.FacilityName.id_for_label }}" class="form-label">Facility Name</label>
+                        {{ form.FacilityName }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.FacilityImage.id_for_label }}" class="form-label">Facility Image</label>
+                        {{ form.FacilityImage }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.FacilityCategory.id_for_label }}" class="form-label">Facility Category</label>
+                        {{ form.FacilityCategory }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

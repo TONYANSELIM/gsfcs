@@ -1,0 +1,26 @@
+<!-- delete_maintenance.html -->
+
+{% extends 'partials/base.html' %}
+{% block title %} Delete Maintenance {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="border bg-white p-3">
+                <h5>Delete Maintenance Record</h5>
+                <p>Are you sure you want to delete maintenance record for "{{ maintenance.facility.FacilityName }}"?</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    <a href="{% url 'schooladmin-maintanance' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

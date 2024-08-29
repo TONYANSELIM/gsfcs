@@ -1,0 +1,92 @@
+
+{% extends 'partials/base.html' %}
+{% block title %}Index Page{% endblock %}
+{% block content %}
+
+{% include 'partials/topnav2.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+    
+            <div class="col-md-10 mt-10">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Information
+                    </div>
+                    <div class="card-body">
+                        <h3 class="my-10">Wellcome, {{ user.username }}</h3>
+                        
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+<!--Topside-->
+<div class="container">
+
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Panel
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-addfacility' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Items <i class="fa-regular fa-bookmark"></i></h4>
+                                        <h3>{{ facilities_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="text-decoration-none text-dark" href="{% url 'schooladmin-maintanance' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Repair <i class="fa-solid fa-toolbox"></i></h4>
+                                        <h3>{{ maintanance_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-addannouncement' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Post <i class="fa-regular fa-clipboard"></i></h4>
+                                        <h3>{{ announcement_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="text-decoration-none text-dark" href="{% url 'school-admin_paymentstatus' %}">
+                                <div class="card-body text-center">
+                                    <div class="card my-card shadow text-center p-3">
+                                        <h4>Pay's <i class="fa-solid fa-money-check-dollar"></i></h4>
+                                        <h3>{{ payment_count }}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Topside-->
+
+
+
+
+
+{% endblock %}
+

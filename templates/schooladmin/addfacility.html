@@ -1,0 +1,99 @@
+{% extends 'partials/base.html' %}
+{% block title %} Add Facility Page {% endblock %}
+{% block content %}
+{% include 'partials/topnav2.html' %} 
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h5>Add Facility</h5>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.FacilityName.id_for_label }}" class="form-label">Facility Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="{{ form.FacilityName.id_for_label }}" name="{{ form.FacilityName.name }}"  placeholder="Enter Facility Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.FacilityImage.id_for_label }}" class="form-label">Facility Image</label>
+                        <div class="input-group">
+                            {{ form.FacilityImage }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_school">School</label>
+                        <select class="form-control" id="id_school" name="school">
+                            <option value="" selected disabled>Select School</option>
+                            {% for school in schools %}
+                                <option value="{{ school.DSchoolID }}">{{ school.DSchoolName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="facility-category">Facility Category</label>
+                        <div class="input-group">
+                            <select class="form-control" id="facility-category" name="{{ form.FacilityCategory.name }}">
+                                <option value="" selected disabled>Select Facility Category</option>
+                                {% for key, value in form.FacilityCategory.field.choices %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-10 mt-4">
+            <h4>Facilities List</h4>
+            <div class="form-row align-items-center">
+                <form method="GET" action="{% url 'school-addfacility' %}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ query }}">
+                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                </form>
+                <a href="{% url 'download_facilities_excel' %}" class="btn btn-primary mb-2 ml-2">Download Excel</a>
+            </div>
+            
+            <table class="table table-striped bg-white">
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">School Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Facility Number</th>
+                        <th scope="col">Qr Code</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for facility in facilities %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><img src="{{ facility.FacilityImage.url }}" alt="{{ facility.FacilityName }}" style="width: 100px; height: auto;"></td>
+                        <td>{{ facility.FacilityName }}</td>
+                        <td>{{ facility.school.DSchoolName }}</td>
+                        <td>{{ facility.get_FacilityCategory_display }}</td>
+                        <td>{{ facility.generate_facility_number }}</td>
+                        <td>
+                            <a href="{% url 'generate_qr_code' facility.FacilityID %}" target="_blank">Download QR Code</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'edit-facility' facility.pk %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'delete-facility' facility.pk %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

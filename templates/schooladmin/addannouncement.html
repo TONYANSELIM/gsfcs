@@ -1,0 +1,109 @@
+{% extends 'partials/base.html' %}
+{% block title %}Add Announcement{% endblock %}
+
+{% block content %}
+{% include 'partials/topnav2.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h5>Add Announcement</h5>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.Title.id_for_label }}" class="form-label">Title</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="{{ form.Title.id_for_label }}" name="{{ form.Title.name }}"  placeholder="Enter Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Content.id_for_label }}" class="form-label">Content</label>
+                        <div class="input-group">
+                            <textarea class="form-control" id="{{ form.Content.id_for_label }}" name="{{ form.Content.name }}" rows="3" placeholder="Enter Content"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Picture.id_for_label }}" class="form-label">Picture</label>
+                        <div class="input-group">
+                            {{ form.Picture }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.DSchoolID.id_for_label }}" class="form-label">School</label>
+                        <div class="input-group">
+                            {{ form.DSchoolID }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Announcement</button>
+                    <a class="btn btn-info" href="{% url 'school-viewannouncement' %}">View Announcements</a>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-10 mt-4">
+            <h4>Announcements List</h4>
+            <div class="form-row align-items-center">
+                <form method="GET" action="{% url 'school-viewannouncement' %}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search by School Name" aria-label="Search" name="q" value="{{ query }}">
+                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                </form>
+            </div>
+            
+            <table class="table table-striped bg-white">
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        <th scope="col">#</th>
+                        <th scope="col">Picture</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">School</th>
+                        <th scope="col">Time Posted</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for announcement in announcements %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                            {% if announcement.Picture %}
+                                <a href="#" data-toggle="modal" data-target="#contentModal{{ forloop.counter }}">
+                                    <img src="{{ announcement.Picture.url }}" alt="{{ announcement.Title }}" style="width: 100px; height: auto;">
+                                </a>
+                                <div class="modal fade" id="contentModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel{{ forloop.counter }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="contentModalLabel{{ forloop.counter }}">Content</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 400px; overflow-y: auto; word-wrap: break-word;">
+                                                {{ announcement.Content }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ announcement.Title }}</td>
+                        <td>{{ announcement.DSchoolID.DSchoolName }}</td>
+                        <td>{{ announcement.TimePosted }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'edit-announcement' announcement.pk %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'delete-announcement' announcement.pk %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

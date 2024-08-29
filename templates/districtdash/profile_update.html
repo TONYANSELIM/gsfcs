@@ -1,0 +1,46 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Update Profile{% endblock title %}
+
+{% block content %}
+{% include 'partials/topnav.html' %} 
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Update Profile
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ u_form.username.value }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ u_form.email.value }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ p_form.phone.value }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">School</label>
+                            <input type="text" class="form-control" id="address" name="address" value="{{ p_form.address.value }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="image">Profile Image</label>
+                            <input type="file" class="form-control-file" id="image" name="image">
+                        </div>
+                        <button type="submit" class="btn btn-info">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

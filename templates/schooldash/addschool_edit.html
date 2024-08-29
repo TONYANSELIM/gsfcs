@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %}
+{% block title %} Edit School {% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <h5>Edit School</h5>
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for="{{ form.DSchoolName.id_for_label }}" class="form-label">School Name</label>
+                        <input type="text" class="form-control" id="{{ form.DSchoolName.id_for_label }}" name="{{ form.DSchoolName.name }}" value="{{ form.DSchoolName.value }}">
+                        {{ form.DSchoolName.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Ward.id_for_label }}" class="form-label">Ward</label>
+                        <input type="text" class="form-control" id="{{ form.Ward.id_for_label }}" name="{{ form.Ward.name }}" value="{{ form.Ward.value }}">
+                        {{ form.Ward.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.Street.id_for_label }}" class="form-label">Street</label>
+                        <input type="text" class="form-control" id="{{ form.Street.id_for_label }}" name="{{ form.Street.name }}" value="{{ form.Street.value }}">
+                        {{ form.Street.errors }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

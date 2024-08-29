@@ -1,0 +1,61 @@
+{% extends 'partials/base.html' %}
+{% block title %}Facilities List{% endblock %}
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form method="GET" action="{% url 'school-viewitems' %}" class="form-inline">
+                        <div class="form-group mb-2">
+                            <label for="searchInput" class="sr-only">Search</label>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search by facility name" name="q" value="{{ query|default:'' }}">
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <label for="schoolSelect" class="sr-only">School</label>
+                            <select id="schoolSelect" class="form-control" name="school">
+                                <option value="">Select School...</option>
+                                {% for school in schools %}
+                                    <option value="{{ school.DSchoolID }}" {% if school_id == school.DSchoolID %}selected{% endif %}>{{ school.DSchoolName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mb-2" type="submit">Apply</button>
+                    </form>
+                    <a href="{% url 'generate_pdf' %}" class="btn btn-primary mb-2">Download PDF</a>
+                </div>
+                <hr>
+                <h4>Facilities List</h4>
+                
+                <table class="table table-striped bg-white">
+                    <thead class="bg-info text-white">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">School Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Facility Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for facility in facilities %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><img src="{{ facility.FacilityImage.url }}" alt="{{ facility.FacilityName }}" style="width: 100px; height: auto;"></td>
+                            <td>{{ facility.FacilityName }}</td>
+                            <td>{{ facility.school.DSchoolName }}</td>
+                            <td>{{ facility.get_FacilityCategory_display }}</td>
+                            <td>{{ facility.generate_facility_number }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

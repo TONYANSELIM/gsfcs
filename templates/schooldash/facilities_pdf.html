@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilities List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Additional custom styles specific to your template can be added here if needed */
+        .logo {
+            max-width: 150px;
+        }
+        .facility-image {
+            max-width: 100px;
+            height: auto;
+        }
+        th.facility-number {
+            width: 15%; /* Adjust width for Facility Number column */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header text-center mb-4">
+            <img src="/media/logo.png" alt="Logo" class="logo">
+            <h1>Facilities List - GSFCS</h1>
+        </div>
+        <table class="table table-bordered">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">School Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col" class="facility-number">Facility Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for facility in facilities %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><img src="{{ facility.FacilityImage.url }}" alt="{{ facility.FacilityName }}" class="facility-image"></td>
+                    <td>{{ facility.FacilityName }}</td>
+                    <td>{{ facility.school.DSchoolName }}</td>
+                    <td>{{ facility.get_FacilityCategory_display }}</td>
+                    <td>{{ facility.generate_facility_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Bootstrap JS and any additional scripts can be included here if needed -->
+    <!-- Example: <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+</body>
+</html>

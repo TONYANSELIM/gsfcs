@@ -1,0 +1,111 @@
+{% extends 'partials/base.html' %}
+{% block title %} Maintenance {% endblock %}
+{% block content %}
+{% include 'partials/topnav.html' %}
+
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="border bg-white p-3">
+                <hr>
+                <h4>Search Maintenance</h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form method="GET" action="{% url 'school-payment' %}" class="form-inline mb-3 d-flex align-items-center">
+                        <div class="form-group mb-2">
+                            <label for="searchInput" class="sr-only">Search</label>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search by facility name" name="facility_q" value="{{ facility_q|default:'' }}">
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <label for="schoolSelect" class="sr-only">School</label>
+                            <select id="schoolSelect" class="form-control" name="school">
+                                <option value="">Select School...</option>
+                                {% for school in schools %}
+                                    <option value="{{ school.DSchoolID }}" {% if school_id == school.DSchoolID %}selected{% endif %}>{{ school.DSchoolName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <label for="categorySelect" class="sr-only">Category</label>
+                            <select id="categorySelect" class="form-control" name="category">
+                                <option value="">Select Category...</option>
+                                {% for key, value in categories %}
+                                    <option value="{{ key }}" {% if selected_category == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mb-2" type="submit">Apply</button>
+                    </form>
+                    <a href="{% url 'download_payment_records' %}" class="btn btn-primary mb-2">Download Excel</a>
+                </div>
+                <hr>
+                <h4>Maintenance Records with Documents</h4>
+                <table class="table table-striped bg-white mt-4">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Picture</th>
+                            <th scope="col">Facility</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Facility Number</th>
+                            <th scope="col">School</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for maintenance in maintenances %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#descriptionModal{{ forloop.counter }}">
+                                    <img src="{{ maintenance.MaintanancePicture.url }}" alt="{{ maintenance.MaintananceDescription }}" style="width: 100px; height: auto;">
+                                </a>
+                                <div class="modal fade" id="descriptionModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ forloop.counter }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="descriptionModalLabel{{ forloop.counter }}">Maintenance Description</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 400px; overflow-y: auto; word-wrap: break-word;">
+                                                {{ maintenance.MaintananceDescription }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ maintenance.facility.FacilityName }}</td>
+                            <td>{{ maintenance.get_category_display }}</td>
+                            <td>{{ maintenance.facility.generate_facility_number }}</td>
+                            <td>{{ maintenance.facility.school.DSchoolName }}</td>
+                            <td>
+                                {% if maintenance.confirmed %}
+                                    <span class="badge badge-success">Paid</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if maintenance.receipt %}
+                                    <a href="{{ maintenance.receipt.url }}" class="btn btn-info btn-sm" target="_blank">View Document</a>
+                                {% else %}
+                                    <span class="badge badge-warning">No Document</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}
